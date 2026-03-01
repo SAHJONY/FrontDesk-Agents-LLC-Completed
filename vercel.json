@@ -1,0 +1,10 @@
+{
+  "framework": null,
+  "buildCommand": "pnpm build",
+  "outputDirectory": "dist/public",
+  "installCommand": "pnpm install --no-frozen-lockfile",
+  "devCommand": "pnpm dev",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" }
+  ]
+}
