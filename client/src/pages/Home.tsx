@@ -42,21 +42,30 @@ const navLinks = [
 
 const heroShots = [
   {
-    src: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=900&q=80",
-    caption: "Ops bridge orchestrating multi-market demand",
+    src: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=3840&q=100&sat=-20",
+    caption: "8K ops bridge orchestrating multi-market demand",
   },
   {
-    src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80",
-    caption: "Executive review with live telemetry feeds",
+    src: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=3840&q=100&sat=-20",
+    caption: "Executive war room with volumetric telemetry",
   },
   {
-    src: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=80",
+    src: "https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=3840&q=100&sat=-25",
     caption: "Special operations pod validating AI workflows",
   },
   {
-    src: "https://images.unsplash.com/photo-1520607162513-6c549ef0b707?auto=format&fit=crop&w=900&q=80",
-    caption: "Fortune 500 client success room during rollout",
+    src: "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=3840&q=100&sat=-15",
+    caption: "Fortune 500 control deck during a Sahjony rollout",
   },
+];
+
+const marqueeBrands = [
+  "Oracle",
+  "Apple",
+  "Meta",
+  "BlackRock",
+  "SpaceX",
+  "Bloomberg",
 ];
 
 const trustedVisuals = [
@@ -338,37 +347,68 @@ export default function Home() {
 
       <main className="space-y-20 pb-24">
         <section id="platform" className="container pt-12">
-          <div className="grid gap-12 lg:grid-cols-[minmax(0,1.2fr),0.8fr]">
-            <div className="space-y-6">
-              <Badge variant="secondary" className="gap-2">
-                Global Workforce Initialized • PDX1
-              </Badge>
-              <div>
-                <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-                  Scale revenue without hiring more people.
-                </h1>
-                <p className="mt-4 text-lg text-muted-foreground">
-                  Replace queue chaos with an autonomous workforce. FrontDesk
-                  Agents monitor every channel, self-heal playbooks, and hand
-                  off only the conversations that need a human.
-                </p>
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-[48px] bg-[#05060b] px-8 py-16 text-white shadow-[0_40px_120px_rgba(3,4,17,0.55)]"
+          >
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute right-10 top-10 h-72 w-72 rounded-full bg-sky-500/30 blur-[140px]" />
+              <div className="absolute -left-20 bottom-0 h-80 w-80 rounded-full bg-purple-500/20 blur-[160px]" />
+            </div>
+
+            <div className="relative grid gap-12 lg:grid-cols-[minmax(0,1fr),420px]">
+              <div className="space-y-8">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/70">
+                  <span>Sahjony Investments LLC</span>
+                  <span className="text-white/50">Global launch grid</span>
+                </div>
+                <div className="space-y-4">
+                  <h1 className="text-4xl font-semibold leading-tight tracking-tight sm:text-5xl lg:text-[58px] lg:leading-[1.1]">
+                    8K cinematic ops platform for brands that run like Oracle, Apple, and Meta.
+                  </h1>
+                  <p className="text-lg text-white/70">
+                    FrontDesk Agents now ships as a luxury-grade experience. Cinematic-grade visuals, zero-latency telemetry, and a self-healing workforce that feels like an internal product studio.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button size="lg" asChild className="rounded-full bg-white text-black hover:bg-white/90">
+                    <a href="/signup">
+                      Deploy Sahjony node <ArrowRight className="h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button variant="outline" size="lg" asChild className="rounded-full border-white/30 text-white hover:bg-white/10">
+                    <a href="/demo">
+                      Watch studio reel <PlayCircle className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </div>
+                <div className="flex flex-wrap items-center gap-4 text-xs font-semibold tracking-[0.2em] text-white/60">
+                  <span className="text-white/40">Trusted by</span>
+                  {marqueeBrands.map(brand => (
+                    <span
+                      key={brand}
+                      className="rounded-full border border-white/15 px-4 py-1 text-white/80"
+                    >
+                      {brand}
+                    </span>
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap gap-3">
-                <Button size="lg" asChild>
-                  <a href="/signup">
-                    Execute deployment <ArrowRight className="h-4 w-4" />
-                  </a>
-                </Button>
-                <Button variant="outline" size="lg" asChild>
-                  <a href="/demo">
-                    Operational insights <PlayCircle className="h-4 w-4" />
-                  </a>
-                </Button>
-              </div>
-              <div className="grid gap-4 sm:grid-cols-2">
-                {heroShots.map(shot => (
-                  <Card key={shot.caption} className="overflow-hidden border-0 shadow-lg">
-                    <AspectRatio ratio={4 / 3}>
+
+              <div className="space-y-5">
+                {heroShots.map((shot, index) => (
+                  <motion.div
+                    key={shot.caption}
+                    initial={{ opacity: 0, x: 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.15 }}
+                    viewport={{ once: true }}
+                    className="overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_20px_60px_rgba(5,6,11,0.6)]"
+                  >
+                    <AspectRatio ratio={5 / 3}>
                       <img
                         src={shot.src}
                         alt={shot.caption}
@@ -376,90 +416,85 @@ export default function Home() {
                         loading="lazy"
                       />
                     </AspectRatio>
-                    <CardContent className="pt-4 text-sm text-muted-foreground">
-                      {shot.caption}
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                {statHighlights.map(stat => (
-                  <Card key={stat.label} className="border-dashed">
-                    <CardHeader className="pb-2">
-                      <CardDescription>{stat.label}</CardDescription>
-                      <CardTitle className="text-3xl">{stat.value}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-sm text-muted-foreground">
-                        {stat.detail}
-                      </p>
-                    </CardContent>
-                  </Card>
+                    <div className="flex items-center justify-between px-5 py-4 text-sm text-white/80">
+                      <p>{shot.caption}</p>
+                      <Sparkles className="h-4 w-4 text-sky-300" />
+                    </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
+          </motion.div>
 
-            <div className="space-y-6">
-              <Card className="overflow-hidden border-primary/30 bg-gradient-to-b from-primary/5 to-background">
-                <CardHeader>
-                  <CardDescription>Operations console</CardDescription>
-                  <CardTitle>8-Division Fleet</CardTitle>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {statHighlights.map(stat => (
+              <Card
+                key={stat.label}
+                className="border border-white/10 bg-gradient-to-b from-white/5 to-transparent text-white"
+              >
+                <CardHeader className="pb-2">
+                  <CardDescription className="text-white/60">{stat.label}</CardDescription>
+                  <CardTitle className="text-3xl text-white">{stat.value}</CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <div className="rounded-xl border bg-background/80 p-4 shadow-sm">
-                    <p className="text-sm font-medium text-muted-foreground">
-                      Global distribution nodes
-                    </p>
-                    <p className="mt-2 text-4xl font-semibold">9 regions online</p>
-                    <p className="text-xs text-muted-foreground">
-                      Auto-scaling based on queue heatmap every 30s
-                    </p>
-                  </div>
-                  <div className="space-y-3">
-                    {opsSignals.map(signal => (
-                      <div
-                        key={signal.title}
-                        className="rounded-lg border border-muted/60 bg-background/60 p-3"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">{signal.title}</span>
-                          <Badge variant="outline">Live</Badge>
-                        </div>
-                        <p className="text-base font-semibold">{signal.status}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {signal.detail}
-                        </p>
+                <CardContent>
+                  <p className="text-sm text-white/60">{stat.detail}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-12 grid gap-6 lg:grid-cols-[minmax(0,1.15fr),0.85fr]">
+            <Card className="overflow-hidden border border-white/10 bg-[#06070f] text-white">
+              <CardHeader>
+                <CardDescription className="text-white/60">Operations console</CardDescription>
+                <CardTitle className="text-white">8-Division Fleet</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-sm font-medium text-white/60">Global distribution nodes</p>
+                  <p className="mt-2 text-4xl font-semibold">9 regions online</p>
+                  <p className="text-xs text-white/50">Auto-scaling every 30s across PDX1 • FRA3 • IAD2</p>
+                </div>
+                <div className="space-y-3">
+                  {opsSignals.map(signal => (
+                    <div
+                      key={signal.title}
+                      className="rounded-2xl border border-white/5 bg-white/5 p-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-white/70">{signal.title}</span>
+                        <Badge variant="outline" className="border-white/30 text-white/70">Live</Badge>
                       </div>
-                    ))}
-                  </div>
-                  <div className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">
-                    Call, SMS, email, and web chat orchestrated through a single
-                    AI workforce. Escalations stay under 2% with deterministic
-                    guardrails.
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="overflow-hidden border-0 shadow-xl">
-                <AspectRatio ratio={16 / 9}>
-                  <img
-                    src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=1200&q=80"
-                    alt="Executive desk with control dashboards"
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </AspectRatio>
-                <CardContent className="pt-4 text-sm text-muted-foreground">
-                  FrontDesk Agents embedded inside an enterprise command room.
-                </CardContent>
-              </Card>
-            </div>
+                      <p className="text-base font-semibold text-white">{signal.status}</p>
+                      <p className="text-xs text-white/60">{signal.detail}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="rounded-2xl border border-dashed border-white/30 p-4 text-sm text-white/60">
+                  Call, SMS, email, and chat orchestrated through a single AI workforce with deterministic guardrails.
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="overflow-hidden border border-white/10 bg-[#03050a]">
+              <AspectRatio ratio={16 / 9}>
+                <img
+                  src="https://images.unsplash.com/photo-1529333166437-7750a6dd5a70?auto=format&fit=crop&w=2400&q=100&sat=-20"
+                  alt="Executive desk with control dashboards"
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                />
+              </AspectRatio>
+              <CardContent className="pt-4 text-sm text-white/60">
+                Sahjony Trading + FrontDesk Agents embedded inside an enterprise studio.
+              </CardContent>
+            </Card>
           </div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-4">
             {trustedVisuals.map(trust => (
               <div
                 key={trust.name}
-                className="relative overflow-hidden rounded-xl border bg-muted/30"
+                className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/5"
               >
                 <AspectRatio ratio={5 / 3}>
                   <img
@@ -469,15 +504,14 @@ export default function Home() {
                     loading="lazy"
                   />
                 </AspectRatio>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent" />
-                <p className="absolute bottom-2 left-3 text-xs font-semibold uppercase tracking-wide text-white">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0" />
+                <p className="absolute bottom-3 left-4 text-xs font-semibold uppercase tracking-widest text-white">
                   {trust.name}
                 </p>
               </div>
             ))}
           </div>
         </section>
-
         <section className="container" id="platform-stack">
           <div className="grid gap-6 lg:grid-cols-2">
             {capabilityHighlights.map(capability => (
