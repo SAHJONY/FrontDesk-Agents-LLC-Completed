@@ -37,3 +37,9 @@
 - [x] Verify all environment variables are properly configured
 - [x] Test build pipeline for production
 - [x] Create checkpoint for deployment
+
+## Phase 7: Bland.ai Integration
+- [x] Add secured `/api/webhooks/bland` endpoint with signature verification
+- [ ] Persist webhook payloads (transcripts, caller data) to Slack/Airtable backend
+- [ ] Trigger downstream automations (notifications, CRM updates)
+- [ ] Expose webhook health metrics in telemetry dashboard
