@@ -3,7 +3,7 @@ import express from "express";
 import crypto from "crypto";
 
 const BLAND_SIGNATURE_HEADER = "x-bland-signature";
-const blandWebhookSecret = process.env.BLAND_WEBHOOK_SECRET;
+const blandWebhookSecret = process.env.BLAND_WEBHOOK_SECRET ?? process.env.BLAND_AI_WEBHOOK_SECRET;
 
 interface BlandWebhookCaller {
   phone_number?: string;
