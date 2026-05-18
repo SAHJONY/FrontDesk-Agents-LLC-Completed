@@ -119,6 +119,10 @@ async def start_call(ctx: CallContext):
     session_id = f"{ctx.caller_id}_{datetime.now().timestamp()}"
     active_calls[session_id] = ctx
     logger.info(f"Call started: {session_id}")
+    
+    # TODO: Send SMS to caller_id with link: f"https://www.frontdeskagents.com/client/{ctx.business_name.replace(' ', '-')}?call={session_id}"
+    # This links the phone call to the visual dashboard
+    
     return {"session_id": session_id}
 
 @app.post("/api/v1/call/process")
