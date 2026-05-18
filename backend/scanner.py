@@ -67,12 +67,27 @@ class BusinessScanner:
     def _extract_services(self, soup) -> List[str]:
         text = soup.get_text().lower()
         services = []
+        
+        # Multi-language keyword mapping
         keywords = {
-            "plumbing": ["leak", "pipe", "water heater", "drain", "sewer", "plumber"],
-            "hvac": ["heating", "cooling", "ac", "furnace", "air conditioner", "hvac"],
-            "electrician": ["electric", "wiring", "power", "outlet", "lighting", "panel"],
-            "roofing": ["roof", "shingle", "leak", "gutter"],
-            "landscaping": ["lawn", "garden", "tree", "landscape", "mowing"]
+            "plumbing": ["leak", "pipe", "water heater", "drain", "sewer", "plumber", 
+                         "fuga", "tubería", "calentador", "fontanero", # Spanish
+                         "fuite", "tuyau", "plomberie", "chauffe-eau", # French
+                         "leck", "rohr", "klempner", "wasserhahn"], # German
+            
+            "hvac": ["heating", "cooling", "ac", "furnace", "air conditioner", "hvac",
+                     "calefacción", "refrigeración", "climatización", # Spanish
+                     "chauffage", "climatisation", "froid", # French
+                     "heizung", "kühlung", "klimaanlage"], # German
+            
+            "electrician": ["electric", "wiring", "power", "outlet", "lighting", "panel",
+                            "eléctrico", "cableado", "luz", "energía", # Spanish
+                            "électrique", "câblage", "lumière", # French
+                            "elektrisch", "verdrahtung", "strom"], # German
+            
+            "roofing": ["roof", "shingle", "gutter", "techo", "tejado", "toiture", "dach"],
+            
+            "landscaping": ["lawn", "garden", "tree", "landscape", "mowing", "jardín", "paisaje", "jardinage", "garten"]
         }
         
         found_industries = []
@@ -80,7 +95,7 @@ class BusinessScanner:
             if any(word in text for word in words):
                 found_industries.append(industry)
                 
-        return found_industries if found_industries else ["general contractor"]
+        return found_industries if found_industries else ["general_contractor"]
 
     def _extract_about(self, soup) -> str:
         # Look for "About" sections
@@ -139,20 +154,22 @@ class BusinessScanner:
         
         prompt = f"""
 ROLE: You are the AI Receptionist for {name}.
+LANGUAGE: Detect the caller's language automatically (English, Spanish, French, German, Mandarin, etc.) and respond in that same language.
 TONE: {tone.capitalize()}, helpful, and efficient.
 SERVICES: {services}.
 
 INSTRUCTIONS:
 1. Greet callers warmly mentioning {name}.
-2. Qualify their need based on our services: {services}.
-3. If it's an emergency (leak, no power, etc.), flag as CRITICAL.
-4. Collect: Name, Address, Phone, Issue.
-5. Book appointments or dispatch emergency teams.
+2. Detect the language the caller is speaking and reply in that same language.
+3. Qualify their need based on our services: {services}.
+4. If it's an emergency (leak, no power, etc.), flag as CRITICAL.
+5. Collect: Name, Address, Phone, Issue.
+6. Book appointments or dispatch emergency teams.
 
 RULES:
 - NEVER invent prices.
 - ALWAYS confirm the address.
-- If unsure, say "I'll have a specialist call you back."
+- If unsure, say "I'll have a specialist call you back" (in the caller's language).
 """
         
         return {
@@ -163,7 +180,7 @@ RULES:
             "website": scan_data.get('website'),
             "contact": scan_data.get('contact', {}),
             "system_prompt": prompt,
-            "status": "pending_payment" # Activates after Stripe
+            "status": "pending_payment"
         }
 
 # Test runner
