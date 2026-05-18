@@ -21,7 +21,7 @@ export default function LandingPage() {
       <Navigation onNavigate={setView} />
 
       {/* --- HERO: Elegant & Restrained --- */}
-      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20">
         {/* B&W Background with Overlay */}
         <div className="absolute inset-0 w-full h-full">
           <div className="absolute inset-0 bg-black/50 z-10" /> 
@@ -34,37 +34,37 @@ export default function LandingPage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-20 max-w-5xl mx-auto px-6 text-center">
+        <div className="relative z-20 max-w-5xl mx-auto px-6 text-center w-full">
           <motion.div 
             initial={{ opacity: 0, y: 30 }} 
             animate={{ opacity: 1, y: 0 }} 
             transition={{ duration: 1.2, ease: "easeOut" }}
           >
             <div className="inline-block mb-6">
-              <span className="px-4 py-1.5 border border-white/20 rounded-full text-xs font-medium tracking-[0.2em] uppercase text-gray-300 backdrop-blur-sm bg-white/5">
+              <span className="px-3 py-1 sm:px-4 sm:py-1.5 border border-white/20 rounded-full text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-gray-300 backdrop-blur-sm bg-white/5">
                 Premier AI Solutions
               </span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight leading-[1.1] mb-8 text-white">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light tracking-tight leading-[1.1] mb-6 sm:mb-8 text-white">
               Excellence in <br className="hidden md:block" />
               <span className="font-serif italic text-[#d4af37]">Communication</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-12 font-light leading-relaxed">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 font-light leading-relaxed px-2">
               Elevate your service business with an AI receptionist that embodies professionalism. 
               Seamlessly answer, qualify, and book appointments with unparalleled precision.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center w-full">
               <button 
                 onClick={() => setView('onboard')}
-                className="group px-10 py-4 bg-[#d4af37] text-black font-medium rounded-sm text-sm tracking-widest uppercase hover:bg-[#b5952f] transition-all flex items-center gap-3"
+                className="w-full sm:w-auto px-8 sm:px-10 py-4 bg-[#d4af37] text-black font-medium rounded-sm text-xs sm:text-sm tracking-widest uppercase hover:bg-[#b5952f] transition-all flex items-center justify-center gap-3 min-h-[50px]"
               >
                 <span>Begin Consultation</span>
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="px-10 py-4 border border-white/20 text-white font-medium rounded-sm text-sm tracking-widest uppercase hover:bg-white/5 transition-colors flex items-center gap-3">
+              <button className="w-full sm:w-auto px-8 sm:px-10 py-4 border border-white/20 text-white font-medium rounded-sm text-xs sm:text-sm tracking-widest uppercase hover:bg-white/5 transition-colors flex items-center justify-center gap-3 min-h-[50px]">
                 <Play size={14} className="fill-white" /> View Presentation
               </button>
             </div>
@@ -85,11 +85,11 @@ export default function LandingPage() {
       </section>
 
       {/* --- FEATURES: Editorial Layout --- */}
-      <section className="py-32 bg-black">
-        <div className="max-w-7xl mx-auto px-6 space-y-40">
+      <section className="py-20 sm:py-32 bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 space-y-20 sm:space-y-40">
           
           {/* Block 1 */}
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
             <motion.div 
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -98,20 +98,20 @@ export default function LandingPage() {
               className="order-2 md:order-1"
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="h-px w-12 bg-[#d4af37]" />
-                <span className="text-[#d4af37] text-xs font-bold tracking-[0.2em] uppercase">Unmatched Availability</span>
+                <div className="h-px w-8 sm:w-12 bg-[#d4af37]" />
+                <span className="text-[#d4af37] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Unmatched Availability</span>
               </div>
-              <h3 className="text-4xl md:text-5xl font-light mb-8 leading-tight">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-light mb-6 sm:mb-8 leading-tight">
                 Always available.<br/>
                 <span className="font-serif italic text-gray-500">Never fatigued.</span>
               </h3>
-              <p className="text-lg text-gray-400 leading-relaxed mb-10 font-light">
+              <p className="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 sm:mb-10 font-light">
                 Your reputation depends on responsiveness. Our AI ensures every call is answered with the same level of professionalism at 3 PM or 3 AM, eliminating missed opportunities due to human limitation.
               </p>
-              <ul className="space-y-6 text-gray-300 font-light">
+              <ul className="space-y-4 sm:space-y-6 text-gray-300 font-light text-sm sm:text-base">
                 {['Instant Response Time', 'Infinite Scalability', 'Multilingual Capability'].map((item) => (
-                  <li key={item} className="flex items-center gap-4">
-                    <CheckCircle2 className="text-[#d4af37]" size={20} /> <span className="tracking-wide">{item}</span>
+                  <li key={item} className="flex items-center gap-3 sm:gap-4">
+                    <CheckCircle2 className="text-[#d4af37] flex-shrink-0" size={18} /> <span>{item}</span>
                   </li>
                 ))}
               </ul>
@@ -124,14 +124,14 @@ export default function LandingPage() {
               className="order-1 md:order-2"
             >
               <div className="relative">
-                <div className="absolute -inset-4 border border-white/10 z-10" />
-                <img src={FEATURE_IMAGE_1} alt="Executive Team" className="grayscale contrast-110 brightness-90" />
+                <div className="absolute -inset-2 sm:-inset-4 border border-white/10 z-10" />
+                <img src={FEATURE_IMAGE_1} alt="Executive Team" className="grayscale contrast-110 brightness-90 w-full h-auto object-cover" />
               </div>
             </motion.div>
           </div>
 
           {/* Block 2 */}
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
             <motion.div 
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -139,8 +139,8 @@ export default function LandingPage() {
               transition={{ duration: 1 }}
             >
                <div className="relative">
-                <div className="absolute -inset-4 border border-white/10 z-10" />
-                <img src={FEATURE_IMAGE_2} alt="Analytics" className="grayscale contrast-110 brightness-90" />
+                <div className="absolute -inset-2 sm:-inset-4 border border-white/10 z-10" />
+                <img src={FEATURE_IMAGE_2} alt="Analytics" className="grayscale contrast-110 brightness-90 w-full h-auto object-cover" />
               </div>
             </motion.div>
             <motion.div 
@@ -150,17 +150,17 @@ export default function LandingPage() {
               transition={{ duration: 1 }}
             >
               <div className="flex items-center gap-4 mb-6">
-                <div className="h-px w-12 bg-[#d4af37]" />
-                <span className="text-[#d4af37] text-xs font-bold tracking-[0.2em] uppercase">Intelligent Insights</span>
+                <div className="h-px w-8 sm:w-12 bg-[#d4af37]" />
+                <span className="text-[#d4af37] text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase">Intelligent Insights</span>
               </div>
-              <h3 className="text-4xl md:text-5xl font-light mb-8 leading-tight">
+              <h3 className="text-3xl sm:text-4xl md:text-5xl font-light mb-6 sm:mb-8 leading-tight">
                 Data-driven <br/>
                 <span className="font-serif italic text-gray-500">Decision making.</span>
               </h3>
-              <p className="text-lg text-gray-400 leading-relaxed mb-10 font-light">
+              <p className="text-base sm:text-lg text-gray-400 leading-relaxed mb-8 sm:mb-10 font-light">
                 Gain profound insights into customer needs and business performance. Our comprehensive analytics dashboard provides clarity on every interaction, empowering you to optimize operations and maximize revenue.
               </p>
-              <button className="text-[#d4af37] font-medium uppercase tracking-widest text-xs border-b border-[#d4af37]/30 pb-1 hover:border-[#d4af37] transition-colors flex items-center gap-2">
+              <button className="text-[#d4af37] font-medium uppercase tracking-widest text-[10px] sm:text-xs border-b border-[#d4af37]/30 pb-1 hover:border-[#d4af37] transition-colors flex items-center gap-2">
                 Explore Analytics <ArrowRight size={14} />
               </button>
             </motion.div>
@@ -170,17 +170,17 @@ export default function LandingPage() {
       </section>
 
       {/* --- CTA: Refined & Direct --- */}
-      <section className="py-40 bg-[#0a0a0a] border-t border-white/5">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-5xl md:text-6xl font-light mb-8 tracking-tight">
+      <section className="py-20 sm:py-40 bg-[#0a0a0a] border-t border-white/5">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-light mb-6 sm:mb-8 tracking-tight">
             Elevate your <span className="font-serif italic text-[#d4af37]">standard</span>.
           </h2>
-          <p className="text-lg text-gray-500 mb-12 font-light leading-relaxed">
+          <p className="text-base sm:text-lg text-gray-500 mb-8 sm:mb-12 font-light leading-relaxed">
             Join the exclusive network of businesses that demand excellence.
           </p>
           <button 
             onClick={() => setView('onboard')}
-            className="px-12 py-5 bg-white text-black font-medium rounded-sm text-xs tracking-[0.2em] uppercase hover:bg-gray-200 transition-colors"
+            className="w-full sm:w-auto px-10 sm:px-12 py-4 sm:py-5 bg-white text-black font-medium rounded-sm text-xs sm:text-sm tracking-[0.2em] uppercase hover:bg-gray-200 transition-colors min-h-[50px]"
           >
             Request Access
           </button>
