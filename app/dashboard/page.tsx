@@ -20,17 +20,14 @@ export default function Dashboard() {
   const [clientData, setClientData] = useState<any>(null);
   const [calls, setCalls] = useState(MOCK_CALLS);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
-  // Simulate fetching private client data
+  // Ensure client-side only rendering
   useEffect(() => {
-    // In real app: Fetch from /api/client/me using token
+    setMounted(true);
+    // Simulate fetching private client data
     const token = typeof window !== 'undefined' ? localStorage.getItem('client_token') : null;
     
-    if (!token) {
-      // If no token, redirect to login (or stay in demo mode)
-      // window.location.href = '/login'; 
-    }
-
     // Mock data specific to this "client"
     setClientData({
       business_name: "Juan's Premium Plumbing",
@@ -42,7 +39,7 @@ export default function Dashboard() {
     setLoading(false);
   }, []);
 
-  if (loading) return <div className="min-h-screen bg-black text-white flex items-center justify-center"><div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"/></div>;
+  if (!mounted || loading) return <div className="min-h-screen bg-black text-white flex items-center justify-center"><div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"/></div>;
 
   // Simulate a new call coming in every 30 seconds for demo effect
   useEffect(() => {
