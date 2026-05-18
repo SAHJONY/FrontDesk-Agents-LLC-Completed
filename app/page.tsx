@@ -8,7 +8,7 @@ import { Activity, Phone, PhoneOff, Mic, Shield, Zap, Users, DollarSign } from '
 import axios from 'axios';
 
 // --- Configuration ---
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'https://fragrances-publications-answers-mean.trycloudflare.com';
+const API_BASE = "https://usd-frost-mercury-lit.trycloudflare.com";
 const AVATAR_COLOR = "#38bdf8"; // Sky blue
 
 // --- 3D Avatar Component (The "Face" of the AI) ---
