@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle2, Play, Globe, Shield, Zap, TrendingUp, Clock } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import HeroTeam from '../components/HeroTeam';
 
 // Upscale Imagery (Black & White or Muted Tones)
 const HERO_IMAGE = "https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=3200&q=80";
@@ -20,56 +21,9 @@ export default function LandingPage() {
     <div className="bg-black text-white font-sans selection:bg-[#d4af37]/30">
       <Navigation onNavigate={setView} />
 
-      {/* --- HERO: Elegant & Restrained --- */}
-      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center pt-20">
-        {/* B&W Background with Overlay */}
-        <div className="absolute inset-0 w-full h-full">
-          <div className="absolute inset-0 bg-black/50 z-10" /> 
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black z-10" />
-          <img 
-            src={HERO_IMAGE} 
-            alt="Executive Office" 
-            className="w-full h-full object-cover filter grayscale contrast-125 brightness-75" 
-          />
-        </div>
-
-        {/* Content */}
-        <div className="relative z-20 max-w-5xl mx-auto px-6 text-center w-full">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }} 
-            animate={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 1.2, ease: "easeOut" }}
-          >
-            <div className="inline-block mb-6">
-              <span className="px-3 py-1 sm:px-4 sm:py-1.5 border border-white/20 rounded-full text-[10px] sm:text-xs font-medium tracking-[0.2em] uppercase text-gray-300 backdrop-blur-sm bg-white/5">
-                Premier AI Solutions
-              </span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-light tracking-tight leading-[1.1] mb-6 sm:mb-8 text-white">
-              Excellence in <br className="hidden md:block" />
-              <span className="font-serif italic text-[#d4af37]">Communication</span>
-            </h1>
-            
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-400 max-w-2xl mx-auto mb-8 sm:mb-12 font-light leading-relaxed px-2">
-              Elevate your service business with an AI receptionist that embodies professionalism. 
-              Seamlessly answer, qualify, and book appointments with unparalleled precision.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center w-full">
-              <button 
-                onClick={() => setView('onboard')}
-                className="w-full sm:w-auto px-8 sm:px-10 py-4 bg-[#d4af37] text-black font-medium rounded-sm text-xs sm:text-sm tracking-widest uppercase hover:bg-[#b5952f] transition-all flex items-center justify-center gap-3 min-h-[50px]"
-              >
-                <span>Begin Consultation</span>
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="w-full sm:w-auto px-8 sm:px-10 py-4 border border-white/20 text-white font-medium rounded-sm text-xs sm:text-sm tracking-widest uppercase hover:bg-white/5 transition-colors flex items-center justify-center gap-3 min-h-[50px]">
-                <Play size={14} className="fill-white" /> View Presentation
-              </button>
-            </div>
-          </motion.div>
-        </div>
+      {/* --- HERO: The "Hollywood Team" Composition --- */}
+      <section className="relative h-screen w-full overflow-hidden">
+        <HeroTeam />
       </section>
 
       {/* --- TRUST: Minimalist Logos --- */}
