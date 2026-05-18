@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Globe, ChevronRight, Zap, Shield, Phone } from 'lucide-react';
+import { Menu, X, Globe, Zap, ChevronRight } from 'lucide-react';
 
 interface NavProps {
   onNavigate: (view: 'landing' | 'onboard' | 'dashboard') => void;
@@ -84,12 +84,12 @@ export default function Navigation({ onNavigate }: NavProps) {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Hamburger Button */}
           <button 
-            className="md:hidden text-white p-2"
+            className="md:hidden text-white p-2 z-50 relative"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </motion.header>
@@ -101,17 +101,17 @@ export default function Navigation({ onNavigate }: NavProps) {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 bg-black pt-24 px-6 md:hidden"
+            className="fixed inset-0 z-40 bg-black/95 backdrop-blur-xl pt-24 px-6 md:hidden"
           >
             <div className="flex flex-col gap-6">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-2xl font-bold text-white border-b border-white/10 pb-4 flex items-center justify-between"
+                  onClick={() => { setMobileOpen(false); }}
+                  className="text-2xl font-bold text-white border-b border-white/10 pb-4 flex items-center justify-between group"
                 >
-                  {link.name} <ChevronRight className="text-slate-600" />
+                  {link.name} <ChevronRight className="text-slate-600 group-hover:text-blue-400 transition-colors" />
                 </a>
               ))}
               
@@ -119,14 +119,14 @@ export default function Navigation({ onNavigate }: NavProps) {
               
               <button 
                 onClick={() => { setMobileOpen(false); onNavigate('dashboard'); }}
-                className="text-xl font-medium text-slate-400 py-4 border-b border-white/10 flex justify-between"
+                className="text-xl font-medium text-slate-400 py-4 border-b border-white/10 flex justify-between items-center"
               >
                 Log in <ChevronRight />
               </button>
               
               <button
                 onClick={() => { setMobileOpen(false); onNavigate('onboard'); }}
-                className="mt-8 w-full py-4 rounded-xl bg-blue-600 text-white font-bold text-lg shadow-[0_0_30px_rgba(37,99,235,0.4)]"
+                className="mt-8 w-full py-4 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold text-lg shadow-[0_0_30px_rgba(37,99,235,0.4)]"
               >
                 Start Free Trial
               </button>
