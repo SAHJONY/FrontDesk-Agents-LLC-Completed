@@ -126,7 +126,7 @@ export default function Login() {
           <div className="mt-6 text-center">
             <p className="text-slate-500 text-sm">
               Don't have an account?{' '}
-              <a href="/onboard" className="text-blue-400 hover:text-blue-300 font-medium">
+              <a href="/signup" className="text-blue-400 hover:text-blue-300 font-medium">
                 Start Free Trial
               </a>
             </p>
