@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, BarChart3, DollarSign, Zap, Globe, ChevronRight, Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
 import Navigation from '../components/Navigation';
