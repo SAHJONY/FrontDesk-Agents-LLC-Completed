@@ -5,29 +5,56 @@ import { motion } from 'framer-motion';
 import { Shield, Lock, AlertTriangle, Fingerprint, ChevronRight, Eye, EyeOff } from 'lucide-react';
 
 export default function OwnerLogin() {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [isSetup, setIsSetup] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => { 
+    setMounted(true);
+    // Check if credentials are already set
+    if (typeof window !== 'undefined') {
+      const storedUser = localStorage.getItem('owner_username');
+      const storedPass = localStorage.getItem('owner_password');
+      if (storedUser && storedPass) {
+        setIsSetup(true);
+        setUsername(storedUser);
+        // For security, we don't store the password in plain text in state, 
+        // but we acknowledge the setup exists.
+      }
+    }
+  }, []);
+
+  const handleSetup = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('owner_username', username);
+      localStorage.setItem('owner_password', password);
+      setIsSetup(true);
+      setError('');
+    }
+  };
 
   const handleOwnerLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Simulate heavy security check
+    // Get stored credentials
+    const storedUser = typeof window !== 'undefined' ? localStorage.getItem('owner_username') : null;
+    const storedPass = typeof window !== 'undefined' ? localStorage.getItem('owner_password') : null;
+
     setTimeout(() => {
-      // MASTER KEY CHECK
-      if (password === 'SAHJONY2024' || password === 'owner') {
+      if (username === storedUser && password === storedPass) {
         if (typeof window !== 'undefined') {
           localStorage.setItem('owner_auth', 'true');
           window.location.href = '/owner/dashboard';
         }
       } else {
-        setError('ACCESS DENIED: Invalid Master Key');
+        setError('ACCESS DENIED: Invalid Credentials');
         setLoading(false);
       }
     }, 800);
@@ -35,6 +62,36 @@ export default function OwnerLogin() {
 
   if (!mounted) return null;
 
+  // --- SETUP MODE (If no credentials exist) ---
+  if (!isSetup) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden font-mono">
+        <div className="absolute inset-0 z-0 bg-[linear-gradient(rgba(220,38,38,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(220,38,38,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
+        <div className="relative z-10 w-full max-w-lg">
+          <div className="text-center mb-8">
+            <Shield className="text-red-500 mx-auto mb-4" size={48} />
+            <h1 className="text-3xl font-bold uppercase tracking-widest">System Initialization</h1>
+            <p className="text-red-500/80 text-sm mt-2">Create Owner Credentials</p>
+          </div>
+          <div className="glass-panel p-8 rounded-none border border-red-900/50 bg-black/80">
+            <form onSubmit={handleSetup} className="space-y-6">
+              <div>
+                <label className="block text-xs font-bold text-red-500/80 uppercase mb-2">Set Owner Username (Email)</label>
+                <input type="email" value={username} onChange={e => setUsername(e.target.value)} className="w-full bg-black border border-red-900/50 p-3 text-white focus:border-red-500 outline-none" required />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-red-500/80 uppercase mb-2">Set Owner Password</label>
+                <input type="password" value={password} onChange={e => setPassword(e.target.value)} className="w-full bg-black border border-red-900/50 p-3 text-white focus:border-red-500 outline-none" required />
+              </div>
+              <button className="w-full bg-red-900/20 border border-red-800 text-red-500 font-bold py-4 uppercase hover:bg-red-900/40">Initialize System</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // --- LOGIN MODE (Normal Operation) ---
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden font-mono">
       {/* Background: Aggressive Red/Black Grid */}
@@ -69,7 +126,22 @@ export default function OwnerLogin() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-red-500/80 uppercase tracking-wider mb-2">Master Key Required</label>
+              <label className="block text-xs font-bold text-red-500/80 uppercase tracking-wider mb-2">Owner Username</label>
+              <div className="relative group">
+                <Lock className="absolute left-4 top-3.5 text-red-900 group-focus-within:text-red-500 transition-colors" size={20} />
+                <input 
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  className="w-full bg-black border border-red-900/50 rounded-sm pl-12 pr-4 py-3.5 text-red-100 font-mono focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-red-900/50"
+                  placeholder="ENTER USERNAME..."
+                  autoFocus
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-red-500/80 uppercase tracking-wider mb-2">Master Password</label>
               <div className="relative group">
                 <Lock className="absolute left-4 top-3.5 text-red-900 group-focus-within:text-red-500 transition-colors" size={20} />
                 <input 
@@ -77,8 +149,7 @@ export default function OwnerLogin() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-black border border-red-900/50 rounded-sm pl-12 pr-12 py-3.5 text-red-100 font-mono focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-all placeholder:text-red-900/50"
-                  placeholder="ENTER KEY..."
-                  autoFocus
+                  placeholder="ENTER PASSWORD..."
                 />
                 <button 
                   type="button"
@@ -103,14 +174,13 @@ export default function OwnerLogin() {
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
-                  <Fingerprint className="animate-spin" size={18} /> AUTHENTICATING...
+                  <Shield className="animate-spin" size={18} /> AUTHENTICATING...
                 </span>
               ) : (
                 <span className="flex items-center justify-center gap-2 group-hover:gap-3 transition-all">
                   Initialize Session <ChevronRight size={18} />
                 </span>
               )}
-              {/* Scanline effect */}
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-red-500/10 to-transparent translate-y-[-100%] group-hover:translate-y-[100%] transition-transform duration-700" />
             </button>
           </form>
