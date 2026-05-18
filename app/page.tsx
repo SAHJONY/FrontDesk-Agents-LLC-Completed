@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, useInView, useAnimation } from 'framer-motion';
-import { Phone, BarChart3, DollarSign, Zap, Globe, ChevronRight, Sparkles, ArrowRight, CheckCircle, MessageSquare, Clock, Menu, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Phone, BarChart3, DollarSign, Zap, Globe, ChevronRight, Sparkles, ArrowRight, CheckCircle } from 'lucide-react';
 import Navigation from '../components/Navigation';
+import CinematicBackground from '../components/CinematicBackground';
 
 // --- Components ---
 
@@ -84,13 +85,10 @@ export default function LandingPage() {
     <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
       <Navigation onNavigate={setView} />
       
-      {/* --- HERO SECTION --- */}
+      {/* HERO SECTION */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="cinematic-ambience" />
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-10" />
-        <div className="cinematic-grain absolute inset-0 z-20 pointer-events-none" />
+        {/* The New Cinematic 3D Background */}
+        <CinematicBackground />
         
         <div className="relative z-30 max-w-7xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
