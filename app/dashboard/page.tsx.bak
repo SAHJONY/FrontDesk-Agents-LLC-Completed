@@ -1,34 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Users, DollarSign, Clock, ShieldCheck, Phone, BarChart3, CheckCircle } from 'lucide-react';
-
-// Placeholder components to avoid import errors during transition
-const OnboardingPlaceholder = () => (
-  <div className="min-h-screen bg-black text-white flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold mb-4">Onboarding Coming Soon</h1>
-      <p className="text-slate-400">Stripe integration pending API key setup.</p>
-      <button onClick={() => window.location.reload()} className="mt-8 px-6 py-3 bg-blue-600 rounded-lg">Back to Home</button>
-    </div>
-  </div>
-);
-
-const DashboardPlaceholder = () => (
-  <div className="min-h-screen bg-black text-white flex items-center justify-center">
-    <div className="text-center">
-      <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
-      <p className="text-slate-400">Access your real-time metrics here.</p>
-      <button onClick={() => window.location.reload()} className="mt-8 px-6 py-3 bg-blue-600 rounded-lg">Back to Home</button>
-    </div>
-  </div>
-);
+import { useState } from 'react';
+import Onboarding from './onboard/page';
+import Dashboard from './dashboard/page';
+import { Users, DollarSign, Clock, ShieldCheck, Phone, BarChart3 } from 'lucide-react';
 
 export default function LandingPage() {
   const [view, setView] = useState<'landing' | 'onboard' | 'dashboard'>('landing');
 
-  if (view === 'onboard') return <OnboardingPlaceholder />;
-  if (view === 'dashboard') return <DashboardPlaceholder />;
+  if (view === 'onboard') return <Onboarding />;
+  if (view === 'dashboard') return <Dashboard />;
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-4 relative overflow-hidden font-sans">
