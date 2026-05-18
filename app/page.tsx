@@ -86,7 +86,7 @@ export default function NexusPrime() {
       setIsConnected(true);
       setMood('ACTIVE');
       addMessage('AI', "Thank you for calling Demo Plumbing. This is your AI assistant. How can I help you?");
-    } catch (e) {
+    } catch (e: any) {
       console.error("CRITICAL ERROR starting call:", e);
       addMessage('System', `CONNECTION FAILED: ${e.message || 'Check console for details'}`);
       setMood('IDLE');
