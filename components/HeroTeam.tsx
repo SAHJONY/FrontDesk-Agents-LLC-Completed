@@ -20,39 +20,43 @@ export default function HeroTeam() {
       
       {/* Blue Digital Overlay (Grid + Glow) */}
       <div className="absolute inset-0 z-10 opacity-60 mix-blend-screen pointer-events-none">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.1),transparent_40%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,255,255,0.03)_1px,transparent_1px),linear-gradient(0deg,rgba(0,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.15),transparent_40%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,182,212,0.03)_1px,transparent_1px),linear-gradient(0deg,rgba(6,182,212,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
       </div>
 
       {/* Central AI Circle (Decorative) */}
-      <div className="absolute z-20 w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] rounded-full border-2 border-cyan-500/30 flex items-center justify-center text-6xl sm:text-8xl font-extrabold text-cyan-300 bg-[radial-gradient(circle,rgba(0,255,255,0.15),rgba(0,255,255,0.02))] shadow-[0_0_60px_rgba(0,255,255,0.35)] animate-[spin_60s_linear_infinite]">
-        <span className="absolute inset-0 rounded-full border-2 border-dashed border-cyan-500/25" style={{ animation: 'spin 20s linear infinite reverse' }} />
-        AI
+      <div className="absolute z-20 w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] rounded-full border-2 border-cyan-500/30 flex items-center justify-center text-6xl sm:text-8xl font-extrabold text-cyan-300 bg-[radial-gradient(circle,rgba(6,182,212,0.15),rgba(6,182,212,0.02))] shadow-[0_0_60px_rgba(6,182,212,0.35)]">
+        <span className="absolute inset-0 rounded-full border-2 border-dashed border-cyan-500/25 animate-[spin_60s_linear_infinite]" />
+        <span className="relative z-10">AI</span>
       </div>
 
       {/* Content Container */}
       <div className="relative z-30 w-full max-w-7xl px-4 sm:px-8 text-center">
-        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-12 drop-shadow-2xl">
+        <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter text-white mb-8 sm:mb-12 drop-shadow-2xl leading-tight">
           FrontDesk<br/><span className="text-cyan-300">Agents</span>
         </h1>
 
-        {/* Team Grid */}
-        <div className="flex flex-wrap items-end justify-center gap-4 sm:gap-6 md:gap-8">
+        {/* Team Grid - Perfectly Aligned */}
+        <div className="flex flex-wrap items-end justify-center gap-3 sm:gap-6 md:gap-8">
           {TEAM_IMAGES.map((src, index) => {
-            const isCenter = index === 2; // Center the 3rd image
+            const isCenter = index === 2;
             return (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.6 }}
-                className={`relative transition-transform duration-500 hover:-translate-y-3 ${isCenter ? 'w-40 sm:w-56 md:w-64 order-1' : 'w-28 sm:w-40 md:w-48 order-2'}`}
+                className={`relative transition-transform duration-500 hover:-translate-y-3 group ${isCenter ? 'w-40 sm:w-56 md:w-64 order-1' : 'w-28 sm:w-40 md:w-48 order-2'}`}
               >
-                <img
-                  src={src}
-                  alt="Team Member"
-                  className="w-full aspect-[3/4] object-cover rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_40px_rgba(0,255,255,0.15)] border border-white/10"
-                />
+                <div className="relative overflow-hidden rounded-2xl">
+                  <img
+                    src={src}
+                    alt="Team Member"
+                    className="w-full aspect-[3/4] object-cover shadow-[0_20px_60px_rgba(0,0,0,0.6),0_0_40px_rgba(6,182,212,0.15)] border border-white/10 transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {/* Subtle hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </div>
               </motion.div>
             );
           })}
