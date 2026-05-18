@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone, BarChart3, DollarSign, Zap, Globe, ChevronRight, Sparkles, ArrowRight } from 'lucide-react';
 import Navigation from '../components/Navigation';
-import Hero3D from '../components/Hero3D';
 
 const Onboarding = () => <div className="min-h-screen bg-black"><Navigation onNavigate={()=>{}} /><div className="pt-32 text-center text-white"><h1 className="text-4xl font-bold">Onboarding</h1></div></div>;
 const Dashboard = () => <div className="min-h-screen bg-black"><Navigation onNavigate={()=>{}} /><div className="pt-32 text-center text-white"><h1 className="text-4xl font-bold">Dashboard</h1></div></div>;
@@ -15,7 +14,7 @@ export default function LandingPage() {
   if (view === 'dashboard') return <Dashboard />;
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
       <Navigation onNavigate={setView} />
       
       {/* HERO SECTION */}
@@ -24,14 +23,15 @@ export default function LandingPage() {
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center cinematic-bg"
           style={{ 
-            // Image: Modern, glass-walled office with diverse team, warm lighting, 8K quality
             backgroundImage: "url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')"
           }}
         />
-        {/* Dark Overlay for Readability */}
+        {/* Dark Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90 z-0" />
-        {/* Film Grain Overlay */}
+        {/* Film Grain */}
         <div className="cinematic-grain absolute inset-0 z-0 pointer-events-none" />
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 text-center">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
             <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md text-blue-300 text-sm font-medium mb-8">
               <Sparkles size={14} className="text-blue-400" /> <span>The Future of AI Receptionists</span>
