@@ -1,197 +1,163 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { Phone, BarChart3, DollarSign, Zap, Globe, ChevronRight, Sparkles, ArrowRight, CheckCircle, Clock } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, CheckCircle2, Play, Globe, Shield, Zap } from 'lucide-react';
 import Navigation from '../components/Navigation';
-import CinematicBackground from '../components/CinematicBackground';
 
-// --- Components ---
-
-// 1. Animated Counter Component
-const AnimatedCounter = ({ value, label, icon: Icon, delay }: { value: number, label: string, icon: any, delay: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (isInView) {
-      const duration = 2000;
-      const startTime = Date.now();
-      const animate = () => {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        // Ease-out quart
-        const easeOut = 1 - Math.pow(1 - progress, 4);
-        setCount(Math.floor(easeOut * value));
-        if (progress < 1) requestAnimationFrame(animate);
-      };
-      animate();
-    }
-  }, [isInView, value]);
-
-  return (
-    <div ref={ref} className="glass-panel p-8 rounded-2xl border border-white/10 text-center hover:border-blue-500/30 transition-all group">
-      <div className="mb-4 inline-flex p-3 rounded-xl bg-blue-500/10 text-blue-400 group-hover:scale-110 transition-transform">
-        <Icon size={24} />
-      </div>
-      <div className="text-4xl font-bold text-white mb-2">{count.toLocaleString()}+</div>
-      <div className="text-slate-400">{label}</div>
-    </div>
-  );
-};
-
-// 2. FAQ Item Component
-const FAQItem = ({ question, answer }: { question: string, answer: string }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <div className="border-b border-white/10 last:border-0">
-      <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full py-6 flex items-center justify-between text-left hover:text-blue-400 transition-colors"
-      >
-        <span className="text-lg font-medium text-white">{question}</span>
-        <ChevronRight className={`transform transition-transform ${isOpen ? 'rotate-90' : ''}`} />
-      </button>
-      <div className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-40 opacity-100 pb-6' : 'max-h-0 opacity-0'}`}>
-        <p className="text-slate-400">{answer}</p>
-      </div>
-    </div>
-  );
-};
+// High-End Imagery URLs (Real World, Not Abstract)
+const HERO_IMAGE = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3200&q=80";
+const FEATURE_IMAGE_1 = "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80";
+const FEATURE_IMAGE_2 = "https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=2400&q=80";
 
 export default function LandingPage() {
   const [view, setView] = useState<'landing' | 'onboard' | 'dashboard'>('landing');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
+  const y = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
 
-  if (view === 'onboard') return <div className="min-h-screen bg-black"><Navigation onNavigate={setView} /></div>; // Placeholder
-  if (view === 'dashboard') return <div className="min-h-screen bg-black"><Navigation onNavigate={setView} /></div>; // Placeholder
-
-  const stats = [
-    { value: 98, label: '% Answer Rate', icon: Phone },
-    { value: 24, label: '/7 Availability', icon: Clock },
-    { value: 40, label: '% Revenue Boost', icon: DollarSign },
-    { value: 100, label: '% Automated', icon: Zap },
-  ];
-
-  const recentActivity = [
-    { text: "Joe's Plumbing booked a $450 job", time: "2s ago" },
-    { text: "Miami HVAC qualified 3 leads", time: "5s ago" },
-    { text: "Austin Electric saved $1200/mo", time: "12s ago" },
-    { text: "Denver Roofing scheduled 2 appts", time: "18s ago" },
-  ];
+  if (view === 'onboard') return <div className="bg-black"><Navigation onNavigate={setView} /></div>; // Placeholder
+  if (view === 'dashboard') return <div className="bg-black"><Navigation onNavigate={setView} /></div>;
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden relative">
+    <div className="bg-black text-white font-sans selection:bg-blue-500/30">
       <Navigation onNavigate={setView} />
-      
-      {/* HERO SECTION */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* The New Cinematic 3D Background */}
-        <CinematicBackground />
-        
-        <div className="relative z-30 max-w-7xl mx-auto px-4 text-center">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }} className="inline-flex items-center gap-2 px-5 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md text-blue-300 text-sm font-medium mb-8">
-              <Sparkles size={14} className="text-blue-400" /> <span>The Future of AI Receptionists</span>
-            </motion.div>
-            <h1 className="text-5xl md:text-8xl font-extrabold tracking-tight mb-6">
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">Frontdesk Agents</span>
+
+      {/* --- HERO: Photorealistic & Minimal --- */}
+      <section className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+        {/* Background Image with Parallax */}
+        <motion.div style={{ y }} className="absolute inset-0 w-full h-full">
+          <div className="absolute inset-0 bg-black/40 z-10" /> {/* Darken for text */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10" />
+          <img 
+            src={HERO_IMAGE} 
+            alt="Modern Office" 
+            className="w-full h-full object-cover scale-110" // Slightly zoomed for parallax
+          />
+        </motion.div>
+
+        {/* Content */}
+        <div className="relative z-20 max-w-5xl mx-auto px-6 text-center">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }} 
+            animate={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h2 className="text-blue-500 font-semibold tracking-widest text-sm uppercase mb-6">The Future of Service Business</h2>
+            <h1 className="text-6xl md:text-8xl font-bold tracking-tight leading-[1.1] mb-8 text-white">
+              Never miss a <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">$1,000 call</span> again.
             </h1>
-            <p className="text-xl md:text-3xl text-slate-300 max-w-4xl mx-auto mb-12 font-light">
-              Never miss a <span className="text-white font-semibold">$1,000 call</span> again.
-              <br className="hidden md:block" /><span className="text-slate-400">The world's most advanced AI for service businesses.</span>
+            <p className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto mb-10 font-light leading-relaxed">
+              The world's most advanced AI receptionist. Automatically answers, qualify, and book appointments while you sleep.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setView('onboard')} className="group px-10 py-5 bg-blue-600 text-white font-bold rounded-full text-lg shadow-[0_0_30px_rgba(37,99,235,0.4)] flex items-center gap-2 justify-center">
-                Start Free Trial <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={() => setView('dashboard')} className="px-10 py-5 glass-panel text-white font-semibold rounded-full text-lg border border-white/10">
-                Client Login
-              </motion.button>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button 
+                onClick={() => setView('onboard')}
+                className="group relative px-8 py-4 bg-white text-black font-semibold rounded-full text-lg hover:bg-gray-100 transition-all flex items-center gap-2 overflow-hidden"
+              >
+                <span className="relative z-10">Start Free Trial</span>
+                <ArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" size={20} />
+              </button>
+              <button className="px-8 py-4 text-white font-medium rounded-full hover:bg-white/10 transition-colors flex items-center gap-2">
+                <Play size={18} className="fill-white" /> Watch Demo
+              </button>
             </div>
           </motion.div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent z-20" />
       </section>
 
-      {/* --- LIVE ACTIVITY TICKER (TRUST SIGNAL) --- */}
-      <div className="bg-blue-900/10 border-y border-blue-500/20 py-3 overflow-hidden relative z-30">
-        <div className="flex gap-12 animate-marquee whitespace-nowrap">
-          {[...recentActivity, ...recentActivity, ...recentActivity].map((item, i) => (
-            <div key={i} className="flex items-center gap-2 text-sm text-blue-300">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              {item.text} • <span className="text-slate-500">{item.time}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* --- ANIMATED STATS --- */}
-      <section id="stats" className="py-24 px-4 bg-black relative z-30">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-          {stats.map((stat, i) => (
-            <AnimatedCounter key={i} {...stat} delay={i * 0.2} />
-          ))}
-        </div>
-      </section>
-
-      {/* --- FEATURES --- */}
-      <section id="features" className="py-32 px-4 bg-black relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(29,78,216,0.1),transparent_70%)]" />
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">Why Industry Leaders Choose Us</h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">Built for plumbers, electricians, HVAC, and contractors.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <FeatureCard icon={<Phone className="text-blue-400" size={40} />} title="24/7 AI Receptionist" desc="Answers every call instantly, 365 days a year." />
-            <FeatureCard icon={<BarChart3 className="text-emerald-400" size={40} />} title="Smart Qualification" desc="Distinguishes emergencies from routine calls." />
-            <FeatureCard icon={<DollarSign className="text-yellow-400" size={40} />} title="90%+ Profit Margins" desc="Costs pennies to run, sells for hundreds." />
+      {/* --- SOCIAL PROOF: Minimalist Ticker --- */}
+      <section className="py-12 border-b border-white/10 bg-black">
+        <div className="max-w-7xl mx-auto px-6">
+          <p className="text-center text-gray-500 text-sm mb-8 uppercase tracking-widest">Trusted by industry leaders</p>
+          <div className="flex flex-wrap justify-center gap-12 md:gap-20 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+            {/* Simple Text Logos for Cleanliness */}
+            {['Acme Plumbing', 'Global HVAC', 'Elite Electric', 'Premier Roofing', 'Apex Legal'].map((logo) => (
+              <span key={logo} className="text-xl md:text-2xl font-bold text-gray-400">{logo}</span>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* --- FAQ SECTION --- */}
-      <section className="py-32 px-4 bg-slate-950/50">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
-          <div className="glass-panel p-8 rounded-2xl border border-white/10">
-            <FAQItem question="How quickly can I set up my AI agent?" answer="Less than 2 minutes. Just enter your website URL, and our AI scans your business details automatically." />
-            <FAQItem question="Does it work for non-English callers?" answer="Yes! Our AI speaks 50+ languages fluently and auto-detects the caller's language instantly." />
-            <FAQItem question="Can I customize the AI's voice?" answer="Absolutely. Choose from 20+ professional voices or clone your own for a personalized touch." />
-            <FAQItem question="What if I need to talk to a human?" answer="The AI can transfer urgent calls to your mobile or schedule a callback time that works for you." />
+      {/* --- VALUE PROP: Editorial Layout --- */}
+      <section className="py-32 bg-black">
+        <div className="max-w-7xl mx-auto px-6 space-y-32">
+          
+          {/* Block 1 */}
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className="order-2 md:order-1"
+            >
+              <h3 className="text-4xl md:text-5xl font-bold mb-6">24/7 Availability.<br/>Zero Burnout.</h3>
+              <p className="text-xl text-gray-400 leading-relaxed mb-8">
+                Your phone never stops ringing, but you can't answer at 2 AM. Our AI handles every call, every time, ensuring you never miss a revenue opportunity due to human limitations.
+              </p>
+              <ul className="space-y-4 text-gray-300">
+                {['Instant Answer Time', 'Infinite Patience', 'Multilingual Support'].map((item) => (
+                  <li key={item} className="flex items-center gap-3">
+                    <CheckCircle2 className="text-blue-500" size={24} /> {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+              className="order-1 md:order-2"
+            >
+              <img src={FEATURE_IMAGE_1} alt="Team working" className="rounded-2xl shadow-2xl shadow-blue-900/20" />
+            </motion.div>
           </div>
+
+          {/* Block 2 */}
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <img src={FEATURE_IMAGE_2} alt="Data analytics" className="rounded-2xl shadow-2xl shadow-emerald-900/20" />
+            </motion.div>
+            <motion.div 
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+            >
+              <h3 className="text-4xl md:text-5xl font-bold mb-6">Data-Driven<br/>Revenue Growth.</h3>
+              <p className="text-xl text-gray-400 leading-relaxed mb-8">
+                Stop guessing. Get detailed transcripts, sentiment analysis, and lead scoring for every single interaction. Know exactly why customers call and how much revenue you're generating.
+              </p>
+              <button className="text-blue-400 font-semibold flex items-center gap-2 hover:gap-4 transition-all">
+                Explore Analytics <ArrowRight size={20} />
+              </button>
+            </motion.div>
+          </div>
+
         </div>
       </section>
 
-      {/* --- PRICING --- */}
-      <section id="pricing" className="py-32 px-4 bg-black">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-12">Simple Pricing</h2>
-          <div className="glass-panel p-10 rounded-[2.5rem] border border-blue-500/30 relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded-bl-2xl">MOST POPULAR</div>
-            <h3 className="text-3xl font-bold mb-4">Professional</h3>
-            <div className="text-6xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">$299<span className="text-2xl text-slate-400 font-normal">/mo</span></div>
-            <ul className="text-left space-y-4 mb-10 text-lg text-slate-300">
-              <li className="flex items-center gap-3"><CheckCircle className="text-green-500" /> Unlimited AI Calls</li>
-              <li className="flex items-center gap-3"><CheckCircle className="text-green-500" /> Smart Lead Qualification</li>
-              <li className="flex items-center gap-3"><CheckCircle className="text-green-500" /> Global Language Support</li>
-            </ul>
-            <button onClick={() => setView('onboard')} className="w-full py-5 bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-bold rounded-2xl text-lg shadow-[0_0_30px_rgba(37,99,235,0.4)]">Start Free Trial</button>
-          </div>
+      {/* --- CTA: Clean & Bold --- */}
+      <section className="py-32 bg-white text-black">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tight">Ready to upgrade<br/>your business?</h2>
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto">Join the waitlist for the most advanced AI receptionist on the market.</p>
+          <button 
+            onClick={() => setView('onboard')}
+            className="px-10 py-5 bg-black text-white font-bold rounded-full text-lg hover:scale-105 transition-transform"
+          >
+            Start Your Free Trial
+          </button>
         </div>
       </section>
-    </div>
-  );
-}
-
-function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
-  return (
-    <div className="group p-8 rounded-3xl border border-white/5 bg-white/5 hover:border-blue-500/30 transition-all hover:-translate-y-2">
-      <div className="mb-6 p-4 rounded-2xl bg-white/5 border border-white/10 inline-block">{icon}</div>
-      <h3 className="text-2xl font-bold text-white mb-4">{title}</h3>
-      <p className="text-slate-400 text-lg">{desc}</p>
     </div>
   );
 }
