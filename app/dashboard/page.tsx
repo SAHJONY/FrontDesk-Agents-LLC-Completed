@@ -44,15 +44,14 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-blue-500/30 relative overflow-hidden">
-      {/* Background: Ultra-Real Office Environment (War Room Style) */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center cinematic-bg"
-        style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')",
-          backgroundColor: '#0f172a'
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 z-10" />
+      {/* Procedural Cinematic Background */}
+      <div className="cinematic-ambience" />
+      
+      {/* Animated Gradient Orbs */}
+      <div className="absolute top-10 right-10 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-10 left-10 w-64 h-64 bg-emerald-600/10 rounded-full blur-3xl animate-pulse delay-700" />
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/80 z-10" />
       <div className="cinematic-grain absolute inset-0 z-20 pointer-events-none" />
 
       {/* Navigation */}

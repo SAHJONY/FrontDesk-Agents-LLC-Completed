@@ -74,15 +74,14 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Background: Bright, Collaborative Meeting Space */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center cinematic-bg"
-        style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')",
-          backgroundColor: '#1e293b'
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/90 z-10" />
+      {/* Procedural Cinematic Background */}
+      <div className="cinematic-ambience" />
+      
+      {/* Animated Gradient Orbs */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-blue-600/15 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-600/10 rounded-full blur-3xl animate-pulse delay-500" />
+      
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/90 z-10" />
       <div className="cinematic-grain absolute inset-0 z-20 pointer-events-none" />
       
       <div className="max-w-3xl w-full relative z-30">

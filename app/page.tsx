@@ -19,16 +19,16 @@ export default function LandingPage() {
       
       {/* HERO SECTION */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* 8K Cinematic Background: High-End Office Command Center */}
-        <div 
-          className="absolute inset-0 z-0 bg-cover bg-center cinematic-bg"
-          style={{ 
-            backgroundImage: "url('https://images.unsplash.com/photo-1497366811353-6870744d04b2?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')",
-            backgroundColor: '#1e293b' /* Fallback color */
-          }}
-        />
-        {/* Dark Overlay - Reduced opacity to let image show */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 z-10" />
+        {/* Procedural Cinematic Background (CSS Only - No Images) */}
+        <div className="cinematic-ambience" />
+        
+        {/* Animated Gradient Orbs (Simulating Office Lights) */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl animate-pulse delay-1000" />
+        
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80 z-10" />
+        
         {/* Film Grain */}
         <div className="cinematic-grain absolute inset-0 z-20 pointer-events-none" />
         
