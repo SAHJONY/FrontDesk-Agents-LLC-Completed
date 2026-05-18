@@ -73,7 +73,17 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background: Bright, Collaborative Meeting Space */}
+      <div 
+        className="absolute inset-0 z-0 bg-cover bg-center cinematic-bg"
+        style={{ 
+          // Image: Bright, modern meeting room with diverse team, natural light, 8K
+          backgroundImage: "url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')"
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-black/95 z-0" />
+      <div className="cinematic-grain absolute inset-0 z-0 pointer-events-none" />
       <div className="max-w-3xl w-full">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent mb-4">
