@@ -17,8 +17,32 @@ const MOCK_CALLS = [
 
 export default function Dashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'calls' | 'settings'>('overview');
+  const [clientData, setClientData] = useState<any>(null);
   const [calls, setCalls] = useState(MOCK_CALLS);
-  const [isLive, setIsLive] = useState(true);
+  const [loading, setLoading] = useState(true);
+
+  // Simulate fetching private client data
+  useEffect(() => {
+    // In real app: Fetch from /api/client/me using token
+    const token = typeof window !== 'undefined' ? localStorage.getItem('client_token') : null;
+    
+    if (!token) {
+      // If no token, redirect to login (or stay in demo mode)
+      // window.location.href = '/login'; 
+    }
+
+    // Mock data specific to this "client"
+    setClientData({
+      business_name: "Juan's Premium Plumbing",
+      industry: "Plumbing",
+      revenue: "$12,450",
+      calls: 1284,
+      appointments: 342
+    });
+    setLoading(false);
+  }, []);
+
+  if (loading) return <div className="min-h-screen bg-black text-white flex items-center justify-center"><div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"/></div>;
 
   // Simulate a new call coming in every 30 seconds for demo effect
   useEffect(() => {
@@ -63,7 +87,9 @@ export default function Dashboard() {
                 <Activity className="text-white" size={24} />
               </div>
               <div>
-                <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">Frontdesk Agents</h1>
+                <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+                  {clientData?.business_name || 'Loading...'}
+                </h1>
                 <p className="text-xs text-slate-400 flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" /> System Operational
                 </p>
