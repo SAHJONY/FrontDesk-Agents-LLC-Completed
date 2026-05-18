@@ -72,19 +72,26 @@ export default function NexusPrime() {
   }, []);
 
   const startCall = async () => {
+    setIsSpeaking(true); // Show loading state
     try {
+      console.log("Initiating call to:", API_BASE);
       const res = await axios.post(`${API_BASE}/api/v1/call/start`, {
         caller_id: "+15550001111",
         target_number: "+18552833652",
         business_name: "Demo Plumbing Co.",
         service_area: "Houston, TX"
       });
+      console.log("Call started:", res.data);
       setSessionId(res.data.session_id);
       setIsConnected(true);
       setMood('ACTIVE');
       addMessage('AI', "Thank you for calling Demo Plumbing. This is your AI assistant. How can I help you?");
     } catch (e) {
-      console.error("Connection failed", e);
+      console.error("CRITICAL ERROR starting call:", e);
+      addMessage('System', `CONNECTION FAILED: ${e.message || 'Check console for details'}`);
+      setMood('IDLE');
+    } finally {
+      setIsSpeaking(false);
     }
   };
 
