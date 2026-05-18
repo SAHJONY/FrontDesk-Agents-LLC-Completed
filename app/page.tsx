@@ -59,15 +59,27 @@ export default function NexusPrime() {
   const [inputText, setInputText] = useState('');
   const [metrics, setMetrics] = useState({ calls: 0, revenue: 0 });
   const [sessionId, setSessionId] = useState<string | null>(null);
+  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
 
-  // Simulate Live Metrics
+  // Fetch REAL data from backend every 5 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMetrics(prev => ({
-        calls: prev.calls + (Math.random() > 0.7 ? 1 : 0),
-        revenue: prev.revenue + (Math.random() > 0.8 ? 250 : 0)
-      }));
-    }, 3000);
+    const fetchMetrics = async () => {
+      try {
+        const res = await axios.get(`${API_BASE}/api/v1/metrics`);
+        if (res.data) {
+          setMetrics({
+            calls: res.data.total_calls_today || 0,
+            revenue: res.data.revenue_saved_estimate || 0
+          });
+          setLastUpdated(new Date());
+        }
+      } catch (e) {
+        console.error("Failed to fetch real metrics:", e);
+      }
+    };
+
+    fetchMetrics(); // Initial fetch
+    const interval = setInterval(fetchMetrics, 5000); // Poll every 5s
     return () => clearInterval(interval);
   }, []);
 
@@ -182,7 +194,10 @@ export default function NexusPrime() {
             </div>
             <div className="flex items-center gap-2 text-green-400">
               <DollarSign size={14} />
-              <span>${metrics.revenue} SAVED</span>
+              <span>${metrics.revenue.toLocaleString()} SAVED</span>
+            </div>
+            <div className="flex items-center gap-2 text-slate-500 text-[10px]">
+              LAST UPDATE: {lastUpdated.toLocaleTimeString()}
             </div>
           </div>
         </div>

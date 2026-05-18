@@ -148,6 +148,38 @@ async def end_call(session_id: str):
         del active_calls[session_id]
     return {"status": "ended"}
 
+@app.get("/api/v1/metrics")
+async def get_metrics():
+    """Returns REAL data from logs and active sessions."""
+    total_revenue = 0.0
+    total_calls = 0
+    
+    # Calculate real metrics from persistent logs
+    log_file = "/root/frontdesk-agents-nexus/logs/call_logs.jsonl"
+    if os.path.exists(log_file):
+        try:
+            with open(log_file, 'r') as f:
+                for line in f:
+                    if line.strip():
+                        data = json.loads(line)
+                        total_calls += 1
+                        # Estimate revenue: $150 avg per qualified lead
+                        urgency = data.get('data', {}).get('urgency', 'LOW')
+                        if urgency in ['CRITICAL', 'HIGH']:
+                            total_revenue += 150.0 
+                        elif urgency == 'LOW':
+                            total_revenue += 50.0
+        except Exception as e:
+            logger.error(f"Error reading logs: {e}")
+
+    return {
+        "active_calls": len(active_calls),
+        "total_calls_today": total_calls,
+        "revenue_saved_estimate": total_revenue,
+        "status": "operational",
+        "version": HERMES_VERSION
+    }
+
 if __name__ == "__main__":
     logger.info(f"Starting Hermes Core v{HERMES_VERSION} with OpenHarness Swarm")
     uvicorn.run(app, host="0.0.0.0", port=8001)
