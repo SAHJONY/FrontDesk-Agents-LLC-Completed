@@ -11,6 +11,7 @@ from pydantic import BaseModel
 from typing import Optional, List
 import uvicorn
 from datetime import datetime
+from .scanner import BusinessScanner  # Import our new scanner
 
 # --- Configuration ---
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "sk_test_YOUR_KEY_HERE") # Replace in production
@@ -36,9 +37,10 @@ def save_json(path: str, data: dict):
 
 # --- Models ---
 class CustomerOnboarding(BaseModel):
-    business_name: str
+    business_name: Optional[str] = None  # Optional if scanning
     owner_email: str
-    industry: str  # plumber, electrician, hvac
+    industry: Optional[str] = None
+    website_url: Optional[str] = None  # New field for auto-scan
     phone_number: Optional[str] = None
     stripe_customer_id: Optional[str] = None
 
@@ -50,11 +52,38 @@ class PaymentIntentRequest(BaseModel):
 
 @app.post("/api/saas/onboard")
 async def onboard_customer(data: CustomerOnboarding):
-    """Step 1: Create a customer record and generate a Stripe Payment Link."""
+    """Step 1: Create customer record. Auto-scan website if URL provided."""
     customers = load_json(CUSTOMERS_DB)
+    scanner = BusinessScanner()
+    config_data = {}
     
-    # Generate unique ID
-    customer_id = f"cust_{data.business_name.lower().replace(' ', '_')}_{datetime.now().timestamp()}"
+    # Auto-Scan if URL provided
+    if data.website_url:
+        logger.info(f"Scanning website: {data.website_url}")
+        scan_result = scanner.scan(data.website_url)
+        if "error" in scan_result:
+            raise HTTPException(status_code=400, detail=f"Website scan failed: {scan_result['error']}")
+        
+        config_data = scanner.generate_agent_config(scan_result)
+        business_name = config_data['business_name']
+        industry = config_data['industry']
+    else:
+        # Manual entry fallback
+        if not data.business_name:
+            raise HTTPException(status_code=400, detail="Business name or website URL required")
+        business_name = data.business_name
+        industry = data.industry or "general"
+        config_data = {
+            "business_name": business_name,
+            "industry": industry,
+            "services": "General services",
+            "tone": "professional",
+            "system_prompt": f"You are the AI for {business_name}."
+        }
+
+    customer_id = f"cust_{business_name.lower().replace(' ', '_')}_{datetime.now().timestamp()}"
+    
+    # ... (Rest of Stripe logic remains same)
     
     # Create Stripe Customer
     try:
