@@ -48,12 +48,12 @@ export default function Dashboard() {
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center cinematic-bg"
         style={{ 
-          // Image: Focused team in modern glass office, night time, city lights, 8K
-          backgroundImage: "url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')"
+          backgroundImage: "url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=3840&q=80')",
+          backgroundColor: '#0f172a'
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/90 z-0" />
-      <div className="cinematic-grain absolute inset-0 z-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/80 z-10" />
+      <div className="cinematic-grain absolute inset-0 z-20 pointer-events-none" />
 
       {/* Navigation */}
       <nav className="relative z-20 border-b border-white/10 bg-black/40 backdrop-blur-md">
