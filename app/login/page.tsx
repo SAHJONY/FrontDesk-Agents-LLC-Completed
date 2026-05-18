@@ -3,9 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Mail, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
-import axios from 'axios';
-
-const API_BASE = "https://usd-frost-mercury-lit.trycloudflare.com"; // Your tunnel
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -15,120 +12,85 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  useEffect(() => { setMounted(true); }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
-    try {
-      // Simulated Auth for now (Real auth would hit backend)
-      // In a real scenario, this exchanges credentials for a JWT
-      // const response = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
-      
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      if (email && password) {
-         // Mock successful login
-         if (typeof window !== 'undefined') {
-            localStorage.setItem('client_token', 'mock_token_' + email);
-            window.location.href = '/dashboard';
-         }
-      } else {
-        setError('Invalid credentials. Please try again.');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    if (email && password) {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('client_token', 'mock_token_' + email);
+        window.location.href = '/dashboard';
       }
-    } catch (err: any) {
-      // Fallback for demo
-      if (email && password && typeof window !== 'undefined') {
-         localStorage.setItem('client_token', 'mock_token_' + email);
-         window.location.href = '/dashboard';
-      } else {
-        setError('Invalid credentials. Please try again.');
-      }
-    } finally {
+    } else {
+      setError('Invalid credentials.');
       setLoading(false);
     }
   };
 
-  if (!mounted) return null; // Prevent hydration mismatch
+  if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
-      {/* Cinematic Background */}
+    <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 sm:p-6 relative overflow-hidden">
+      {/* Background */}
       <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 to-black z-0" />
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#d4af37]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-slate-900/20 rounded-full blur-[120px]" />
       </div>
 
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent mb-2">
-            Frontdesk Agents
-          </h1>
-          <p className="text-slate-400">Client Portal Login</p>
+          <h1 className="text-3xl sm:text-4xl font-light tracking-tight mb-2">Welcome Back</h1>
+          <p className="text-gray-500 text-sm sm:text-base">Access your private dashboard</p>
         </div>
 
-        <div className="glass-panel p-8 rounded-2xl border border-white/10">
+        <div className="glass-panel-refined p-6 sm:p-8 rounded-sm border border-white/10">
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Business Email</label>
+              <label className="block text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Email Address</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-3.5 text-slate-500" size={20} />
+                <Mail className="absolute left-4 top-3.5 text-gray-600" size={20} />
                 <input 
-                  type="email" 
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg pl-12 pr-4 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
-                  placeholder="you@business.com"
-                  required
+                  type="email" required
+                  value={email} onChange={e => setEmail(e.target.value)}
+                  className="w-full bg-black/40 border border-white/10 rounded-sm pl-12 pr-4 py-4 text-white focus:outline-none focus:border-[#d4af37] transition-colors text-sm sm:text-base"
+                  placeholder="business@example.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-400 mb-2">Password</label>
+              <label className="block text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Password</label>
               <div className="relative">
-                <Lock className="absolute left-4 top-3.5 text-slate-500" size={20} />
+                <Lock className="absolute left-4 top-3.5 text-gray-600" size={20} />
                 <input 
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-black/40 border border-white/10 rounded-lg pl-12 pr-12 py-3 text-white focus:outline-none focus:border-blue-500 transition-colors"
+                  value={password} onChange={e => setPassword(e.target.value)}
+                  className="w-full bg-black/40 border border-white/10 rounded-sm pl-12 pr-12 py-4 text-white focus:outline-none focus:border-[#d4af37] transition-colors text-sm sm:text-base"
                   placeholder="••••••••"
-                  required
                 />
-                <button 
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-3.5 text-slate-500 hover:text-white"
-                >
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-3.5 text-gray-600 hover:text-white">
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
               </div>
             </div>
 
-            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+            {error && <p className="text-red-500 text-xs sm:text-sm text-center">{error}</p>}
 
             <button 
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold py-4 rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.3)] flex items-center justify-center gap-2 disabled:opacity-50"
+              type="submit" disabled={loading}
+              className="w-full bg-white text-black font-medium rounded-sm text-xs sm:text-sm tracking-widest uppercase py-4 hover:bg-gray-200 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 min-h-[50px]"
             >
-              {loading ? <Loader2 className="animate-spin" size={20} /> : <>Access Dashboard <ArrowRight size={20} /></>}
+              {loading ? <Loader2 className="animate-spin" size={18} /> : <><Lock size={16} /> Access Dashboard</>}
             </button>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-slate-500 text-sm">
+          <div className="mt-6 text-center border-t border-white/10 pt-6">
+            <p className="text-gray-500 text-xs sm:text-sm">
               Don't have an account?{' '}
-              <a href="/signup" className="text-blue-400 hover:text-blue-300 font-medium">
-                Start Free Trial
-              </a>
+              <a href="/signup" className="text-[#d4af37] hover:text-white font-medium transition-colors">Start Free Trial</a>
             </p>
           </div>
         </div>
