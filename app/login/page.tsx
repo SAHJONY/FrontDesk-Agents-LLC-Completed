@@ -13,6 +13,11 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,16 +27,23 @@ export default function Login() {
     try {
       // Simulated Auth for now (Real auth would hit backend)
       // In a real scenario, this exchanges credentials for a JWT
-      const response = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
+      // const response = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
       
-      if (response.data.token) {
-        localStorage.setItem('client_token', response.data.token);
-        window.location.href = '/dashboard'; // Redirect to private dashboard
-      }
-    } catch (err: any) {
-      // Fallback for demo: if backend isn't ready, allow mock login
+      // Simulate network delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
       if (email && password) {
          // Mock successful login
+         if (typeof window !== 'undefined') {
+            localStorage.setItem('client_token', 'mock_token_' + email);
+            window.location.href = '/dashboard';
+         }
+      } else {
+        setError('Invalid credentials. Please try again.');
+      }
+    } catch (err: any) {
+      // Fallback for demo
+      if (email && password && typeof window !== 'undefined') {
          localStorage.setItem('client_token', 'mock_token_' + email);
          window.location.href = '/dashboard';
       } else {
@@ -41,6 +53,8 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  if (!mounted) return null; // Prevent hydration mismatch
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
